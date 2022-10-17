@@ -16,13 +16,13 @@ struct Hash;
 
 class World {
   public:
-    Chunk* createChunk(Ivec2);
-    Chunk* getChunk(Ivec2);
-    Chunk* getOrCreateChunk(Ivec2);
+    Chunk* createChunk(const Ivec2&);
+    Chunk* getChunk(const Ivec2&);
+    Chunk* getOrCreateChunk(const Ivec2&);
 
-    bool isChunkCreated(Ivec2);
+    bool isChunkCreated(const Ivec2&);
 
-    void setChunkVisibilityGlobal(Ivec2);
+    void setChunkVisibilityGlobal(const Ivec2&);
     
   private:
     std::unordered_map<uint64_t, Chunk*> chunks;

@@ -18,6 +18,8 @@ Ivec3& Ivec3::operator-=(int v) { x -= v, y -= v, z -= v; return *this; }
 Ivec3& Ivec3::operator*=(int v) { x *= v, y *= v, z *= v; return *this; }
 Ivec3& Ivec3::operator/=(int v) { x /= v, y /= v, z /= v; return *this; }
 
+Ivec3 Ivec3::operator-() { return Ivec3(-x, -y, -z); }
+
 Ivec3 operator+(Ivec3 a, const Ivec3& b) { a += b; return a; }
 Ivec3 operator-(Ivec3 a, const Ivec3& b) { a -= b; return a; }
 Ivec3 operator*(Ivec3 a, const Ivec3& b) { a *= b; return a; }
@@ -73,14 +75,14 @@ Ivec3 Ivec3::clamp(const Ivec3& a, int b, int c) {
 }
 
 Vec3 Ivec3::mix(const Ivec3& a, const Ivec3& b, const Vec3& c) {
-  return Vec3(a.x * (1 - c.x) + b.x * c.x, a.y * (1 - c.y) + b.y * c.y, a.z * (1 - c.z) + b.z * c.z);
+  return Vec3(a.x * (1.0f - c.x) + b.x * c.x, a.y * (1.0f - c.y) + b.y * c.y, a.z * (1.0f - c.z) + b.z * c.z);
 }
 
-Vec3 Ivec3::mix(const Ivec3& a, const Ivec3& b, double c) {
-  return Vec3(a.x * (1 - c) + b.x * c, a.y * (1 - c) + b.y * c, a.z * (1 - c) + b.z * c);
+Vec3 Ivec3::mix(const Ivec3& a, const Ivec3& b, float c) {
+  return Vec3(a.x * (1.0f - c) + b.x * c, a.y * (1.0f - c) + b.y * c, a.z * (1.0f - c) + b.z * c);
 }
 
-double Ivec3::length(const Ivec3& a) {
+float Ivec3::length(const Ivec3& a) {
   return sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
 }
 

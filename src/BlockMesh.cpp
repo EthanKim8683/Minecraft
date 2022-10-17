@@ -3,7 +3,7 @@
 
 #include "BlockMesh.hpp"
 
-BlockMesh::BlockMesh(Block* _block, ChunkMesh* _chunkMesh, Ivec3 _position): block(_block), chunkMesh(_chunkMesh), position(_position) {}
+BlockMesh::BlockMesh(Block* _block, ChunkMesh* _chunkMesh, const Ivec3& _position): block(_block), chunkMesh(_chunkMesh), position(_position) {}
 
 void BlockMesh::addSide(int i) {
   if (visible[i])

@@ -17,6 +17,8 @@ Ivec2& Ivec2::operator-=(int v) { x -= v, y -= v; return *this; }
 Ivec2& Ivec2::operator*=(int v) { x *= v, y *= v; return *this; }
 Ivec2& Ivec2::operator/=(int v) { x /= v, y /= v; return *this; }
 
+Ivec2 Ivec2::operator-() { return Ivec2(-x, -y); }
+
 Ivec2 operator+(Ivec2 a, const Ivec2& b) { a += b; return a; }
 Ivec2 operator-(Ivec2 a, const Ivec2& b) { a -= b; return a; }
 Ivec2 operator*(Ivec2 a, const Ivec2& b) { a *= b; return a; }
@@ -68,14 +70,14 @@ Ivec2 Ivec2::clamp(const Ivec2& a, int b, int c) {
 }
 
 Vec2 Ivec2::mix(const Ivec2& a, const Ivec2& b, const Vec2& c) {
-  return Vec2(a.x * (1 - c.x) + b.x * c.x, a.y * (1 - c.y) + b.y * c.y);
+  return Vec2(a.x * (1.0f - c.x) + b.x * c.x, a.y * (1.0f - c.y) + b.y * c.y);
 }
 
-Vec2 Ivec2::mix(const Ivec2& a, const Ivec2& b, double c) {
-  return Vec2(a.x * (1 - c) + b.x * c, a.y * (1 - c) + b.y * c);
+Vec2 Ivec2::mix(const Ivec2& a, const Ivec2& b, float c) {
+  return Vec2(a.x * (1.0f - c) + b.x * c, a.y * (1.0f - c) + b.y * c);
 }
 
-double Ivec2::length(const Ivec2& a) {
+float Ivec2::length(const Ivec2& a) {
   return sqrt(a.x * a.x + a.y * a.y);
 }
 

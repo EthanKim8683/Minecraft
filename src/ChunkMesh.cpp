@@ -5,8 +5,9 @@
 
 int ChunkMesh::ctx = -1;
 GLuint ChunkMesh::program = -1;
-GLuint ChunkMesh::positionLocation = -1;
-GLuint ChunkMesh::texcoordLocation = -1;
+GLuint ChunkMesh::positionAttribLocation = -1;
+GLuint ChunkMesh::texcoordAttribLocation = -1;
+GLuint ChunkMesh::matrixUniformLocation = -1;
 
 ChunkMesh::ChunkMesh(Chunk* chunk) {
   glGenVertexArrays(1, &vao);
@@ -23,11 +24,17 @@ void ChunkMesh::init(int _ctx) {
   program = Helper::loadProgram("assets/chunk.vsh", "assets/chunk.fsh");
   glUseProgram(program);
 
-  positionLocation = glGetAttribLocation(program, "a_position");
-  texcoordLocation = glGetAttribLocation(program, "a_texcoord");
+  positionAttribLocation = glGetAttribLocation(program, "a_position");
+  texcoordAttribLocation = glGetAttribLocation(program, "a_texcoord");
+
+  matrixUniformLocation = glGetUniformLocation(program, "u_matrix");
 }
 
-void ChunkMesh::updateBlockMesh(const Ivec3 p) {
+void ChunkMesh::setMatrix(const Mat4& m) {
+  glUniformMatrix4fv(matrixUniformLocation, 1, false, &m.data[0]);
+}
+
+void ChunkMesh::updateBlockMesh(const Ivec3& p) {
   if (!Chunk::isBound(p))
     return;
 
@@ -45,25 +52,25 @@ void ChunkMesh::updateVao() {
   glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
   glBufferData(GL_ARRAY_BUFFER, positions.size() * sizeof(float), positions.data(), GL_DYNAMIC_DRAW);
   
-  glEnableVertexAttribArray(positionLocation);
-  glVertexAttribPointer(positionLocation, 3, GL_FLOAT, false, 0, 0);
+  glEnableVertexAttribArray(positionAttribLocation);
+  glVertexAttribPointer(positionAttribLocation, 3, GL_FLOAT, false, 0, 0);
   
   glBindBuffer(GL_ARRAY_BUFFER, texcoordBuffer);
   glBufferData(GL_ARRAY_BUFFER, texcoords.size() * sizeof(float), texcoords.data(), GL_DYNAMIC_DRAW);
   
-  glEnableVertexAttribArray(texcoordLocation);
-  glVertexAttribPointer(texcoordLocation, 2, GL_FLOAT, false, 0, 0);
+  glEnableVertexAttribArray(texcoordAttribLocation);
+  glVertexAttribPointer(texcoordAttribLocation, 2, GL_FLOAT, false, 0, 0);
   
   glBindVertexArray(0);
 }
 
-void ChunkMesh::addPosition(const Vec3 position) {
+void ChunkMesh::addPosition(const Vec3& position) {
   positions.push_back(position.x);
   positions.push_back(position.y);
   positions.push_back(position.z);
 }
 
-void ChunkMesh::addTexcoord(const Vec2 texcoord) {
+void ChunkMesh::addTexcoord(const Vec2& texcoord) {
   texcoords.push_back(texcoord.x);
   texcoords.push_back(texcoord.y);
 }

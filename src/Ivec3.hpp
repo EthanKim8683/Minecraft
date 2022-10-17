@@ -28,6 +28,8 @@ struct Ivec3 {
   Ivec3& operator*=(int);
   Ivec3& operator/=(int);
 
+  Ivec3 operator-();
+
   friend Ivec3 operator+(Ivec3, const Ivec3&);
   friend Ivec3 operator-(Ivec3, const Ivec3&);
   friend Ivec3 operator*(Ivec3, const Ivec3&);
@@ -50,8 +52,8 @@ struct Ivec3 {
   static Ivec3 clamp(const Ivec3&, const Ivec3&, const Ivec3&);
   static Ivec3 clamp(const Ivec3&, int, int);
   static Vec3 mix(const Ivec3&, const Ivec3&, const Vec3&);
-  static Vec3 mix(const Ivec3&, const Ivec3&, double);
-  static double length(const Ivec3&);
+  static Vec3 mix(const Ivec3&, const Ivec3&, float);
+  static float length(const Ivec3&);
   static Vec3 normalize(const Ivec3&);
 };
 

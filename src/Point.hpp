@@ -13,7 +13,7 @@ struct Point {
     Vec2 texcoords;
 
     Point();
-    Point(Vec3, Vec2);
+    Point(const Vec3&, const Vec2&);
 
     Point translate(const Vec3&) const;
 };

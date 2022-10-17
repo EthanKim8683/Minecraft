@@ -20,11 +20,13 @@ class WorldMesh {
 
     static void init(int);
 
-    ChunkMesh* createChunkMesh(Ivec2);
-    ChunkMesh* getChunkMesh(Ivec2);
-    ChunkMesh* getOrCreateChunkMesh(Ivec2);
+    ChunkMesh* createChunkMesh(const Ivec2&);
+    ChunkMesh* getChunkMesh(const Ivec2&);
+    ChunkMesh* getOrCreateChunkMesh(const Ivec2&);
 
-    bool isChunkMeshCreated(Ivec2);
+    bool isChunkMeshCreated(const Ivec2&);
+
+    void draw();
 
   private:
     static int ctx;

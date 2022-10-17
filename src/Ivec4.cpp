@@ -19,6 +19,8 @@ Ivec4& Ivec4::operator-=(int v) { x -= v, y -= v, z -= v, w -= v; return *this; 
 Ivec4& Ivec4::operator*=(int v) { x *= v, y *= v, z *= v, w *= v; return *this; }
 Ivec4& Ivec4::operator/=(int v) { x /= v, y /= v, z /= v, w /= v; return *this; }
 
+Ivec4 Ivec4::operator-() { return Ivec4(-x, -y, -z, -w); }
+
 Ivec4 operator+(Ivec4 a, const Ivec4& b) { a += b; return a; }
 Ivec4 operator-(Ivec4 a, const Ivec4& b) { a -= b; return a; }
 Ivec4 operator*(Ivec4 a, const Ivec4& b) { a *= b; return a; }
@@ -70,14 +72,14 @@ Ivec4 Ivec4::clamp(const Ivec4& a, int b, int c) {
 }
 
 Vec4 Ivec4::mix(const Ivec4& a, const Ivec4& b, const Vec4& c) {
-  return Vec4(a.x * (1 - c.x) + b.x * c.x, a.y * (1 - c.y) + b.y * c.y, a.z * (1 - c.z) + b.z * c.z, a.w * (1 - c.w) + b.w * c.w);
+  return Vec4(a.x * (1.0f - c.x) + b.x * c.x, a.y * (1.0f - c.y) + b.y * c.y, a.z * (1.0f - c.z) + b.z * c.z, a.w * (1.0f - c.w) + b.w * c.w);
 }
 
-Vec4 Ivec4::mix(const Ivec4& a, const Ivec4& b, double c) {
-  return Vec4(a.x * (1 - c) + b.x * c, a.y * (1 - c) + b.y * c, a.z * (1 - c) + b.z * c, a.w * (1 - c) + b.w * c);
+Vec4 Ivec4::mix(const Ivec4& a, const Ivec4& b, float c) {
+  return Vec4(a.x * (1.0f - c) + b.x * c, a.y * (1.0f - c) + b.y * c, a.z * (1.0f - c) + b.z * c, a.w * (1.0f - c) + b.w * c);
 }
 
-double Ivec4::length(const Ivec4& a) {
+float Ivec4::length(const Ivec4& a) {
   return sqrt(a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
 }
 

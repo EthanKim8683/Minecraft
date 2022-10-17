@@ -30,9 +30,9 @@ class Chunk {
 
     Chunk(const Ivec2);
 
-    static bool isBound(const Ivec3);
+    static bool isBound(const Ivec3&);
 
-    Block getBlock(const Ivec3);
+    Block getBlock(const Ivec3&);
 
     IteratorX borderPosXBegin();
     IteratorY borderPosYBegin();
@@ -48,7 +48,7 @@ class Chunk {
     IteratorY borderNegYEnd();
     IteratorZ borderNegZEnd();
 
-    void setBlockVisLocal(const Ivec3);
+    void setBlockVisLocal(const Ivec3&);
     void setVisLocal();
 
     void setVisBorderPosX(IteratorX);

@@ -9,7 +9,7 @@ struct Ivec2;
 
 struct Hash {
   public:
-    static uint64_t mortonEncode(Ivec2);
+    static uint64_t mortonEncode(const Ivec2&);
     
   private:
     static uint64_t magic(uint64_t);

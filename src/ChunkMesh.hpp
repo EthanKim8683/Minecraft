@@ -16,6 +16,7 @@
 #include "Vec3.hpp"
 #include "Ivec3.hpp"
 #include "Helper.hpp"
+#include "Mat4.hpp"
 
 class Chunk;
 class BlockMesh;
@@ -25,6 +26,7 @@ struct Vec3;
 struct Vec2;
 struct Ivec3;
 struct Helper;
+struct Mat4;
 
 class ChunkMesh {
   public:
@@ -35,13 +37,14 @@ class ChunkMesh {
     ChunkMesh(Chunk*);
 
     static void init(int);
+    static void setMatrix(const Mat4&);
     
-    void updateBlockMesh(const Ivec3);
+    void updateBlockMesh(const Ivec3&);
     void updateChunkMesh();
     void updateVao();
 
-    void addPosition(const Vec3);
-    void addTexcoord(const Vec2);
+    void addPosition(const Vec3&);
+    void addTexcoord(const Vec2&);
     void addPoint(const Point&);
     void addTriangle(const Triangle&, int*);
 
@@ -56,15 +59,16 @@ class ChunkMesh {
     static int ctx;
 
     static GLuint program;
-    static GLuint positionLocation;
-    static GLuint texcoordLocation;
+    static GLuint positionAttribLocation;
+    static GLuint texcoordAttribLocation;
+    static GLuint matrixUniformLocation;
 
     GLuint vao;
     GLuint positionBuffer;
     GLuint texcoordBuffer;
     
-    std::vector<double> positions;
-    std::vector<double> texcoords;
+    std::vector<float> positions;
+    std::vector<float> texcoords;
     std::vector<int*> indices;
 
     BlockMesh* blockMeshes[W][H][L];

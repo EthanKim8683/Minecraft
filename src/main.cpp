@@ -13,6 +13,7 @@
 #include "Ivec2.hpp"
 #include "Ivec3.hpp"
 #include "Ivec4.hpp"
+#include "Mat2.hpp"
 #include "Mat3.hpp"
 #include "Mat4.hpp"
 #include "Noise.hpp"

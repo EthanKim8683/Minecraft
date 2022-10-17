@@ -3,29 +3,29 @@
 
 #include "World.hpp"
 
-Chunk* World::createChunk(Ivec2 p) {
+Chunk* World::createChunk(const Ivec2& p) {
   Chunk* chunk = new Chunk(p);
   
   chunks.insert({Hash::mortonEncode(p), chunk});
   return chunk;
 }
 
-Chunk* World::getChunk(Ivec2 p) {
+Chunk* World::getChunk(const Ivec2& p) {
   return chunks[Hash::mortonEncode(p)];
 }
 
-Chunk* World::getOrCreateChunk(Ivec2 p) {
+Chunk* World::getOrCreateChunk(const Ivec2& p) {
   if (isChunkCreated(p))
     return getChunk(p);
   
   return createChunk(p);
 }
 
-bool World::isChunkCreated(Ivec2 p) {
+bool World::isChunkCreated(const Ivec2& p) {
   return chunks.find(Hash::mortonEncode(p)) != chunks.end();
 }
 
-void World::setChunkVisibilityGlobal(Ivec2 p) {
+void World::setChunkVisibilityGlobal(const Ivec2& p) {
   if (!isChunkCreated(p))
     return;
   

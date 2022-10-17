@@ -12,7 +12,7 @@ uint64_t Hash::magic(uint64_t x) {
   return x;
 }
 
-uint64_t Hash::mortonEncode(Ivec2 p) {
+uint64_t Hash::mortonEncode(const Ivec2& p) {
   return magic(p.x) | magic(p.y) << 1;
 }
 

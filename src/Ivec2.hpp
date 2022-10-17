@@ -25,6 +25,8 @@ struct Ivec2 {
   Ivec2& operator*=(int);
   Ivec2& operator/=(int);
 
+  Ivec2 operator-();
+
   friend Ivec2 operator+(Ivec2, const Ivec2&);
   friend Ivec2 operator-(Ivec2, const Ivec2&);
   friend Ivec2 operator*(Ivec2, const Ivec2&);
@@ -46,8 +48,8 @@ struct Ivec2 {
   static Ivec2 clamp(const Ivec2&, const Ivec2&, const Ivec2&);
   static Ivec2 clamp(const Ivec2&, int, int);
   static Vec2 mix(const Ivec2&, const Ivec2&, const Vec2&);
-  static Vec2 mix(const Ivec2&, const Ivec2&, double);
-  static double length(const Ivec2&);
+  static Vec2 mix(const Ivec2&, const Ivec2&, float);
+  static float length(const Ivec2&);
   static Vec2 normalize(const Ivec2&);
 };
 

@@ -18,7 +18,7 @@ struct Ivec3;
 
 class BlockMesh {
   public:
-    BlockMesh(Block*, ChunkMesh*, Ivec3);
+    BlockMesh(Block*, ChunkMesh*, const Ivec3&);
 
     void addSide(int);
     void removeSide(int);

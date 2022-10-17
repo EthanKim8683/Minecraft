@@ -31,6 +31,8 @@ struct Ivec4 {
   Ivec4& operator*=(int);
   Ivec4& operator/=(int);
 
+  Ivec4 operator-();
+
   friend Ivec4 operator+(Ivec4, const Ivec4&);
   friend Ivec4 operator-(Ivec4, const Ivec4&);
   friend Ivec4 operator*(Ivec4, const Ivec4&);
@@ -52,8 +54,8 @@ struct Ivec4 {
   static Ivec4 clamp(const Ivec4&, const Ivec4&, const Ivec4&);
   static Ivec4 clamp(const Ivec4&, int, int);
   static Vec4 mix(const Ivec4&, const Ivec4&, const Vec4&);
-  static Vec4 mix(const Ivec4&, const Ivec4&, double);
-  static double length(const Ivec4&);
+  static Vec4 mix(const Ivec4&, const Ivec4&, float);
+  static float length(const Ivec4&);
   static Vec4 normalize(const Ivec4&);
 };
 

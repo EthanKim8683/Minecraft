@@ -22,18 +22,18 @@ Chunk::IteratorX Chunk::borderNegXEnd() { return IteratorX(&blocks[0][H][0],    
 Chunk::IteratorY Chunk::borderNegYEnd() { return IteratorY(&blocks[W][0][0],     W, 0); }
 Chunk::IteratorZ Chunk::borderNegZEnd() { return IteratorZ(&blocks[W][0][0],     W, 0); }
 
-bool Chunk::isBound(const Ivec3 p) {
+bool Chunk::isBound(const Ivec3& p) {
   return p.x >= 0 && p.x < W && p.y >= 0 && p.y < H && p.z >= 0 && p.z < L;
 }
 
-Block Chunk::getBlock(const Ivec3 p) {
+Block Chunk::getBlock(const Ivec3& p) {
   if (!isBound(p))
     return 0;
     
   return blocks[p.x][p.y][p.z];
 }
 
-void Chunk::setBlockVisLocal(const Ivec3 p) {
+void Chunk::setBlockVisLocal(const Ivec3& p) {
   if (!isBound(p))
     return;
   if (blocks[p.x][p.y][p.z] == 0)
@@ -84,7 +84,7 @@ void Chunk::setVisBorderNegZ(IteratorZ itB) {
 
 void Chunk::genBlocks() {
   for (int i = 0; i < W; i++) for (int j = 0; j < L; j++) {
-    const int h = Noise::snoise(Vec2((position.x * W + i) * 0.01, (position.y * L + j) * 0.01)) * 20+50;
+    const int h = Noise::snoise(Vec2((position.x * W + i) * 0.01f, (position.y * L + j) * 0.01f)) * 20.0f + 50.0f;
     for (int k = 0; k < h; k++)
       blocks[i][k][j] = 1;
   }
