@@ -29,6 +29,7 @@ bool Chunk::isBound(const Ivec3 p) {
 Block Chunk::getBlock(const Ivec3 p) {
   if (!isBound(p))
     return 0;
+    
   return blocks[p.x][p.y][p.z];
 }
 
@@ -37,6 +38,7 @@ void Chunk::setBlockVisLocal(const Ivec3 p) {
     return;
   if (blocks[p.x][p.y][p.z] == 0)
     return;
+  
   blocks[p.x][p.y][p.z].setVisAll(
     isBound(p + Ivec3(1, 0, 0)) && !getBlock(p + Ivec3(1, 0, 0)).isSolid(),
     isBound(p + Ivec3(0, 1, 0)) && !getBlock(p + Ivec3(0, 1, 0)).isSolid(),

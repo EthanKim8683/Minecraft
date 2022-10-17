@@ -6,8 +6,10 @@
 GLuint Helper::createShader(std::string source, GLenum type) {
   const GLuint shader = glCreateShader(type);
   const char* pointer = source.c_str();
+
   glShaderSource(shader, 1, &pointer, NULL);
   glCompileShader(shader);
+
   GLint success;
   glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
   if (!success) {
@@ -20,6 +22,7 @@ GLuint Helper::createShader(std::string source, GLenum type) {
     }
     exit(1);
   }
+
   return shader;
 }
 
@@ -27,9 +30,11 @@ GLuint Helper::createProgram(std::string vertexSource, std::string fragmentSourc
   const GLuint vertexShader = createShader(vertexSource, GL_VERTEX_SHADER);
   const GLuint fragmentShader = createShader(fragmentSource, GL_FRAGMENT_SHADER);
   const GLuint program = glCreateProgram();
+
   glAttachShader(program, vertexShader);
   glAttachShader(program, fragmentShader);
   glLinkProgram(program);
+
   GLint success;
   glGetProgramiv(program, GL_LINK_STATUS, &success);
   if (!success) {
@@ -42,15 +47,19 @@ GLuint Helper::createProgram(std::string vertexSource, std::string fragmentSourc
     }
     exit(1);
   }
+
   glDetachShader(program, vertexShader);
   glDetachShader(program, fragmentShader);
+
   glDeleteShader(vertexShader);
   glDeleteShader(fragmentShader);
+
   return program;
 }
 
 GLuint Helper::loadShader(std::string path, GLenum type) {
   std::ifstream stream(path);
+
   std::string source;
   if (stream.is_open()) {
     std::stringstream sout;
@@ -61,14 +70,15 @@ GLuint Helper::loadShader(std::string path, GLenum type) {
     printf("loadShader:\nShader source error\n");
     exit(1);
   }
+
   return createShader(source, type);
 }
 
 GLuint Helper::loadProgram(std::string vertexPath, std::string fragmentPath) {
   std::ifstream vertexStream(vertexPath);
   std::ifstream fragmentStream(fragmentPath);
+
   std::string vertexSource;
-  std::string fragmentSource;
   if (vertexStream.is_open()) {
     std::stringstream sout;
     sout << vertexStream.rdbuf();
@@ -78,6 +88,8 @@ GLuint Helper::loadProgram(std::string vertexPath, std::string fragmentPath) {
     printf("loadProgram:\nVertex shader source error\n");
     exit(1);
   }
+
+  std::string fragmentSource;
   if (fragmentStream.is_open()) {
     std::stringstream sout;
     sout << fragmentStream.rdbuf();
@@ -87,6 +99,7 @@ GLuint Helper::loadProgram(std::string vertexPath, std::string fragmentPath) {
     printf("loadProgram:\nFragment shader source error\n");
     exit(1);
   }
+  
   return createProgram(vertexSource, fragmentSource);
 }
 

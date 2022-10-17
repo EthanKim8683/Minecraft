@@ -21,12 +21,9 @@ class BlockMesh {
     BlockMesh(Block*, ChunkMesh*, Ivec3);
 
     void addSide(int);
-
     void removeSide(int);
-
     void setSide(int, bool);
-
-    void update();
+    void updateBlockMesh();
 
   private:
     Vec3 position;

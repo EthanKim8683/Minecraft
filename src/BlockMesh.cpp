@@ -9,6 +9,7 @@ void BlockMesh::addSide(int i) {
   if (visible[i])
     return;
   visible[i] = true;
+
   auto& side = BlockType::types[block->getType()].getSide(i);
   indices[i].resize(side.size());
   for (int j = 0; j < side.size(); j++)
@@ -19,6 +20,7 @@ void BlockMesh::removeSide(int i) {
   if (!visible[i])
     return;
   visible[i] = false;
+
   for (auto j : indices[i])
     chunkMesh->removeTriangle(j);
 }
@@ -30,10 +32,11 @@ void BlockMesh::setSide(int i, bool state) {
     removeSide(i);
 }
 
-void BlockMesh::update() {
+void BlockMesh::updateBlockMesh() {
   if (block->getType() != cacheType)
     for (int i = 0; i < 7; i++)
       removeSide(i);
+    
   setSide(0, block->getVisPosX());
   setSide(1, block->getVisPosY());
   setSide(2, block->getVisPosZ());
@@ -41,6 +44,7 @@ void BlockMesh::update() {
   setSide(4, block->getVisNegY());
   setSide(5, block->getVisNegZ());
   setSide(6, block->getVis() != 0);
+  
   cacheType = block->getType();
 }
 
