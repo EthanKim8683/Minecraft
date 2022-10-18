@@ -204,7 +204,7 @@ Mat4 Mat4::invert(const Mat4& a) {
   return result;
 }
 
-Mat4 Mat4::translation(const Vec3& a) {
+Mat4 Mat4::getTranslationMatrix(const Vec3& a) {
   return Mat4(
     1.0f, 0.0f, 0.0f, 0.0f,
     0.0f, 1.0f, 0.0f, 0.0f,
@@ -213,7 +213,7 @@ Mat4 Mat4::translation(const Vec3& a) {
   );
 }
 
-Mat4 Mat4::rotationX(float a) {
+Mat4 Mat4::getRotationXMatrix(float a) {
   float c = cos(a);
   float s = sin(a);
   return Mat4(
@@ -224,7 +224,7 @@ Mat4 Mat4::rotationX(float a) {
   );
 }
 
-Mat4 Mat4::rotationY(float a) {
+Mat4 Mat4::getRotationYMatrix(float a) {
   float c = cos(a);
   float s = sin(a);
   return Mat4(
@@ -235,7 +235,7 @@ Mat4 Mat4::rotationY(float a) {
   );
 }
 
-Mat4 Mat4::rotationZ(float a) {
+Mat4 Mat4::getRotationZMatrix(float a) {
   float c = cos(a);
   float s = sin(a);
   return Mat4(
@@ -246,11 +246,11 @@ Mat4 Mat4::rotationZ(float a) {
   );
 }
 
-Mat4 Mat4::rotation(const Vec3& a) {
-  return rotationX(a.x) * rotationY(a.y) * rotationZ(a.z);
+Mat4 Mat4::getRotationMatrix(const Vec3& a) {
+  return getRotationXMatrix(a.x) * getRotationYMatrix(a.y) * getRotationZMatrix(a.z);
 }
 
-Mat4 Mat4::scaling(const Vec3& a) {
+Mat4 Mat4::getScalingMatrix(const Vec3& a) {
   return Mat4(
     a.x, 0.0f, 0.0f, 0.0f,
     0.0f, a.y, 0.0f, 0.0f,
@@ -259,7 +259,7 @@ Mat4 Mat4::scaling(const Vec3& a) {
   );
 }
 
-Mat4 Mat4::projection(float fov, float aspect, float near, float far) {
+Mat4 Mat4::getProjectionMatrix(float fov, float aspect, float near, float far) {
   float f = 1.0f / tan(fov / 2.0f);
   float rangeInv = 1.0f / (near - far);
   return Mat4(

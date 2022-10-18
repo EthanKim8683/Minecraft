@@ -27,6 +27,8 @@
 #include "World.hpp"
 #include "WorldMesh.hpp"
 
+bool keyPressed[256 + 4];
+
 void initUserData(UserData* userData) {
   int width, height;
 
@@ -78,6 +80,23 @@ void initWorld(UserData* userData) {
   userData->worldMesh = worldMesh;
 }
 
+void handleKeys(float delta, UserData* userData) {
+  World* world = userData->world;
+
+  if (keyPressed['w'])
+    world->moveForward(delta);
+  if (keyPressed['a'])
+    world->moveLeftward(delta);
+  if (keyPressed['s'])
+    world->moveBackward(delta);
+  if (keyPressed['d'])
+    world->moveRightward(delta);
+  if (keyPressed[' '])
+    world->moveUpward(delta);
+  if (keyPressed[256 + 1])
+    world->moveDownward(delta);
+}
+
 EM_BOOL mousemoveCallback(int type, const EmscriptenMouseEvent* event, void* _userData) {
   UserData* userData = (UserData*) _userData;
   World* world = userData->world;
@@ -95,7 +114,7 @@ EM_BOOL mousedownCallback(int type, const EmscriptenMouseEvent* event, void* _us
   return EM_TRUE;
 }
 
-EM_BOOL setResizeCallback(int type, const EmscriptenUiEvent* event, void* _userData) {
+EM_BOOL resizeCallback(int type, const EmscriptenUiEvent* event, void* _userData) {
   UserData* userData = (UserData*) _userData;
   int& width = userData->width;
   int& height = userData->height;
@@ -110,6 +129,42 @@ EM_BOOL setResizeCallback(int type, const EmscriptenUiEvent* event, void* _userD
   return EM_TRUE;
 }
 
+EM_BOOL keydownCallback(int type, const EmscriptenKeyboardEvent* event, void* _userData) {
+  UserData* userData = (UserData*) _userData;
+
+  char key = event->key[0];
+  bool ctrlKey = event->ctrlKey;
+  bool shiftKey = event->shiftKey;
+  bool altKey = event->altKey;
+  bool metaKey = event->metaKey;
+
+  keyPressed[key] = true;
+  keyPressed[256 + 0] = ctrlKey;
+  keyPressed[256 + 1] = shiftKey;
+  keyPressed[256 + 2] = altKey;
+  keyPressed[256 + 3] = metaKey;
+
+  return EM_TRUE;
+}
+
+EM_BOOL keyupCallback(int type, const EmscriptenKeyboardEvent* event, void* _userData) {
+  UserData* userData = (UserData*) _userData;
+
+  char key = event->key[0];
+  bool ctrlKey = event->ctrlKey;
+  bool shiftKey = event->shiftKey;
+  bool altKey = event->altKey;
+  bool metaKey = event->metaKey;
+
+  keyPressed[key] = false;
+  keyPressed[256 + 0] = ctrlKey;
+  keyPressed[256 + 1] = shiftKey;
+  keyPressed[256 + 2] = altKey;
+  keyPressed[256 + 3] = metaKey;
+
+  return EM_TRUE;
+}
+
 EM_BOOL draw(double time, void* _userData) {
   UserData* userData = (UserData*) _userData;
   Env* env = userData->env;
@@ -120,9 +175,11 @@ EM_BOOL draw(double time, void* _userData) {
   World* world = userData->world;
   WorldMesh* worldMesh = userData->worldMesh;
 
-  Mat4 view = world->getMatrix();
-  Mat4 projection = Mat4::projection(fov, aspect, near, far);
+  Mat4 view = world->getViewMatrix();
+  Mat4 projection = Mat4::getProjectionMatrix(fov, aspect, near, far);
   env->updateMatrix(projection * view);
+
+  handleKeys(1, userData);
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -167,7 +224,9 @@ int main(void) {
   
   emscripten_set_mousemove_callback("canvas", userData, false, mousemoveCallback);
   emscripten_set_mousedown_callback("canvas", userData, false, mousedownCallback);
-  emscripten_set_resize_callback("canvas", userData, false, setResizeCallback);
+  emscripten_set_resize_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, userData, false, resizeCallback);
+  emscripten_set_keydown_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, userData, false, keydownCallback);
+  emscripten_set_keyup_callback(EMSCRIPTEN_EVENT_TARGET_WINDOW, userData, false, keyupCallback);
   emscripten_request_animation_frame_loop(draw, userData);
   return 0;
 }

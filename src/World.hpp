@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <unordered_map>
+#include <math.h>
 
 #include "Chunk.hpp"
 #include "ChunkIteratorX.hpp"
@@ -36,13 +37,18 @@ class World {
     void setChunkVisGlobal(const Ivec2&);
 
     void rotate(const Vec2&);
-    void translate(const Vec3&);
+    void moveForward(float);
+    void moveBackward(float);
+    void moveLeftward(float);
+    void moveRightward(float);
+    void moveUpward(float);
+    void moveDownward(float);
 
-    Mat4 getMatrix();
+    Mat4 getViewMatrix();
     
   private:
     Vec2 rotation{0};
-    Vec3 translation{-32, -70, -32};
+    Vec3 translation{32, 70, 32};
 
     std::unordered_map<uint64_t, Chunk*> chunks;
 };

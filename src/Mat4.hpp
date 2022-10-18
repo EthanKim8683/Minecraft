@@ -34,13 +34,13 @@ struct Mat4 {
 
   static Mat4 transpose(const Mat4&);
   static Mat4 invert(const Mat4&);
-  static Mat4 translation(const Vec3&);
-  static Mat4 rotationX(float);
-  static Mat4 rotationY(float);
-  static Mat4 rotationZ(float);
-  static Mat4 rotation(const Vec3&);
-  static Mat4 scaling(const Vec3&);
-  static Mat4 projection(float, float, float, float);
+  static Mat4 getTranslationMatrix(const Vec3&);
+  static Mat4 getRotationXMatrix(float);
+  static Mat4 getRotationYMatrix(float);
+  static Mat4 getRotationZMatrix(float);
+  static Mat4 getRotationMatrix(const Vec3&);
+  static Mat4 getScalingMatrix(const Vec3&);
+  static Mat4 getProjectionMatrix(float, float, float, float);
 };
 
 #endif // !defined(MAT4_H)
