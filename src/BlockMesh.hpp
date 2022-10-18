@@ -30,7 +30,7 @@ class BlockMesh {
     Block* block;
     uint16_t cacheType = 0;
     ChunkMesh* chunkMesh;
-    bool visible[7];
+    bool visible[7] = {false};
     std::vector<int> indices[7];
 };
 

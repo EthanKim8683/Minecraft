@@ -5,9 +5,7 @@
 
 Vec2::Vec2(): x(0), y(0) {}
 Vec2::Vec2(float v): x(v), y(v) {}
-Vec2::Vec2(int v): x(v), y(v) {}
 Vec2::Vec2(float _x, float _y): x(_x), y(_y) {}
-Vec2::Vec2(int _x, int _y): x(_x), y(_y) {}
 Vec2::Vec2(const Ivec2& v): x(v.x), y(v.y) {}
 
 Vec2& Vec2::operator+=(const Vec2& b) { x += b.x, y += b.y; return *this; }

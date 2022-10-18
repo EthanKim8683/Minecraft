@@ -3,13 +3,7 @@
 
 #include "WorldMesh.hpp"
 
-int WorldMesh::ctx = -1;
-
 WorldMesh::WorldMesh(World* _world): world(_world) {}
-
-void WorldMesh::init(int _ctx) {
-  ctx = _ctx;
-}
 
 ChunkMesh* WorldMesh::createChunkMesh(const Ivec2& p) {
   ChunkMesh* chunkMesh = new ChunkMesh(world->getOrCreateChunk(p));

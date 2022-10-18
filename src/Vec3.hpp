@@ -15,9 +15,7 @@ struct Vec3 {
 
   Vec3();
   Vec3(float);
-  Vec3(int);
   Vec3(float, float, float);
-  Vec3(int, int, int);
   Vec3(const Vec2&);
   Vec3(const Ivec3&);
 

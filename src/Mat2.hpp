@@ -6,7 +6,7 @@
 #include "Vec2.hpp"
 
 struct Mat2 {
-  float data[2 * 2];
+  float data[2 * 2] = {0};
 
   Mat2();
   Mat2(float);

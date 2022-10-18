@@ -59,7 +59,7 @@ class Chunk {
     void genBlocks();
   
   private:
-    Block blocks[W][H][L];
+    Block blocks[W][H][L] = {0};
     Ivec2 position;
 };
 

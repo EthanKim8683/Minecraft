@@ -17,9 +17,7 @@ struct Vec4 {
 
   Vec4();
   Vec4(float);
-  Vec4(int);
   Vec4(float, float, float, float);
-  Vec4(int, int, int, int);
   Vec4(const Vec2&);
   Vec4(const Vec3&);
   Vec4(const Ivec4&);

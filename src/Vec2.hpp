@@ -13,9 +13,7 @@ struct Vec2 {
 
   Vec2();
   Vec2(float);
-  Vec2(int);
   Vec2(float, float);
-  Vec2(int, int);
   Vec2(const Ivec2&);
 
   Vec2& operator+=(const Vec2&);

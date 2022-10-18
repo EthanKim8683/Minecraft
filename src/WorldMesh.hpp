@@ -18,8 +18,6 @@ class WorldMesh {
   public:
     WorldMesh(World*);
 
-    static void init(int);
-
     ChunkMesh* createChunkMesh(const Ivec2&);
     ChunkMesh* getChunkMesh(const Ivec2&);
     ChunkMesh* getOrCreateChunkMesh(const Ivec2&);
@@ -29,8 +27,6 @@ class WorldMesh {
     void draw();
 
   private:
-    static int ctx;
-
     World* world;
 
     std::unordered_map<uint64_t, ChunkMesh*> chunkMeshes;

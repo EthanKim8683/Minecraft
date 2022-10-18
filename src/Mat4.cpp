@@ -3,15 +3,14 @@
 
 #include "Mat4.hpp"
 
-Mat4::Mat4() {}
+Mat4::Mat4() {
+  for (int i = 0; i < 4; i++)
+    data[i * 4 + i] = 1.0f;
+}
 
 Mat4::Mat4(float v) {
-  for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++) {
-    if (i == j)
-      data[i * 4 + j] = v;
-    else
-      data[i * 4 + j] = 0;
-  }
+  for (int i = 0; i < 4; i++)
+    data[i * 4 + i] = v;
 }
 
 Mat4::Mat4(float v00, float v01, float v02, float v03, float v10, float v11, float v12, float v13, float v20, float v21, float v22, float v23, float v30, float v31, float v32, float v33) {
@@ -46,8 +45,8 @@ Mat4& Mat4::operator-=(const Mat4& b) {
 }
 
 Mat4& Mat4::operator*=(const Mat4& b) {
-  int temp[4 * 4 + 4];
-  std::copy(&data[0 * 4 + 0], &data[0 * 4 + 0] + 4 * 4, &temp[0 * 4 + 0]);
+  static float temp[4 * 4];
+  std::copy_n(&data[0 * 4 + 0], 4 * 4, &temp[0 * 4 + 0]);
   data[0 * 4 + 0] = temp[0 * 4 + 0] * b.data[0 * 4 + 0] + temp[1 * 4 + 0] * b.data[0 * 4 + 1] + temp[2 * 4 + 0] * b.data[0 * 4 + 2] + temp[3 * 4 + 0] * b.data[0 * 4 + 3];
   data[0 * 4 + 1] = temp[0 * 4 + 1] * b.data[0 * 4 + 0] + temp[1 * 4 + 1] * b.data[0 * 4 + 1] + temp[2 * 4 + 1] * b.data[0 * 4 + 2] + temp[3 * 4 + 1] * b.data[0 * 4 + 3];
   data[0 * 4 + 2] = temp[0 * 4 + 2] * b.data[0 * 4 + 0] + temp[1 * 4 + 2] * b.data[0 * 4 + 1] + temp[2 * 4 + 2] * b.data[0 * 4 + 2] + temp[3 * 4 + 2] * b.data[0 * 4 + 3];
@@ -205,69 +204,69 @@ Mat4 Mat4::invert(const Mat4& a) {
   return result;
 }
 
-Mat4 translation(const Vec3& a) {
+Mat4 Mat4::translation(const Vec3& a) {
   return Mat4(
-    1, 0, 0, 0,
-    0, 1, 0, 0,
-    0, 0, 1, 0,
-    a.x, a.y, a.z, 1
+    1.0f, 0.0f, 0.0f, 0.0f,
+    0.0f, 1.0f, 0.0f, 0.0f,
+    0.0f, 0.0f, 1.0f, 0.0f,
+    a.x, a.y, a.z, 1.0f
   );
 }
 
-Mat4 rotationX(float a) {
+Mat4 Mat4::rotationX(float a) {
   float c = cos(a);
   float s = sin(a);
   return Mat4(
-    1, 0, 0, 0,
-    0, c, -s, 0,
-    0, s, c, 0,
-    0, 0, 0, 1
+    1.0f, 0.0f, 0.0f, 0.0f,
+    0.0f, c, -s, 0.0f,
+    0.0f, s, c, 0.0f,
+    0.0f, 0.0f, 0.0f, 1.0f
   );
 }
 
-Mat4 rotationY(float a) {
+Mat4 Mat4::rotationY(float a) {
   float c = cos(a);
   float s = sin(a);
   return Mat4(
-    c, 0, s, 0,
-    0, 1, 0, 0,
-    -s, 0, c, 0,
-    0, 0, 0, 1
+    c, 0.0f, s, 0.0f,
+    0.0f, 1.0f, 0.0f, 0.0f,
+    -s, 0.0f, c, 0.0f,
+    0.0f, 0.0f, 0.0f, 1.0f
   );
 }
 
-Mat4 rotationZ(float a) {
+Mat4 Mat4::rotationZ(float a) {
   float c = cos(a);
   float s = sin(a);
   return Mat4(
-    c, -s, 0, 0,
-    s, c, 0, 0,
-    0, 0, 1, 0,
-    0, 0, 0, 1
+    c, -s, 0.0f, 0.0f,
+    s, c, 0.0f, 0.0f,
+    0.0f, 0.0f, 1.0f, 0.0f,
+    0.0f, 0.0f, 0.0f, 1.0f
   );
 }
 
-Mat4 rotation(const Vec3& a) {
+Mat4 Mat4::rotation(const Vec3& a) {
   return rotationX(a.x) * rotationY(a.y) * rotationZ(a.z);
 }
 
-Mat4 scaling(const Vec3& a) {
+Mat4 Mat4::scaling(const Vec3& a) {
   return Mat4(
-    a.x, 0, 0, 0,
-    0, a.y, 0, 0,
-    0, 0, a.z, 0,
-    0, 0, 0, 1
+    a.x, 0.0f, 0.0f, 0.0f,
+    0.0f, a.y, 0.0f, 0.0f,
+    0.0f, 0.0f, a.z, 0.0f,
+    0.0f, 0.0f, 0.0f, 1.0f
   );
 }
 
-Mat4 projection(float fov, float aspect, float near, float far) {
-  float f = 1 / tan(fov / 2);
-  float rangeInv = 1 / (near - far);
+Mat4 Mat4::projection(float fov, float aspect, float near, float far) {
+  float f = 1.0f / tan(fov / 2.0f);
+  float rangeInv = 1.0f / (near - far);
   return Mat4(
-    f / aspect, 0, 0, 0,
-    0, f, 0, 0,
-    0, 0, (near + far) * rangeInv, -1,
-    0, 0, near * far * rangeInv * 2, 0
+    f / aspect, 0.0f, 0.0f, 0.0f,
+    0.0f, f, 0.0f, 0.0f,
+    0.0f, 0.0f, (near + far) * rangeInv, -1.0f,
+    0.0f, 0.0f, near * far * rangeInv * 2.0f, 0.0f
   );
 }
 

@@ -7,7 +7,7 @@
 #include "Vec4.hpp"
 
 struct Mat4 {
-  float data[4 * 4];
+  float data[4 * 4] = {0};
 
   Mat4();
   Mat4(float);

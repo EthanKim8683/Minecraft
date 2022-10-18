@@ -5,8 +5,6 @@
 #include <stdint.h>
 #include <vector>
 #include <GLES3/gl3.h>
-#include <emscripten/emscripten.h>
-#include <emscripten/html5.h>
 
 #include "Chunk.hpp"
 #include "BlockMesh.hpp"
@@ -17,6 +15,7 @@
 #include "Ivec3.hpp"
 #include "Helper.hpp"
 #include "Mat4.hpp"
+#include "Env.hpp"
 
 class Chunk;
 class BlockMesh;
@@ -27,6 +26,7 @@ struct Vec2;
 struct Ivec3;
 struct Helper;
 struct Mat4;
+struct Env;
 
 class ChunkMesh {
   public:
@@ -35,13 +35,10 @@ class ChunkMesh {
     const static size_t L = 16;
 
     ChunkMesh(Chunk*);
-
-    static void init(int);
-    static void setMatrix(const Mat4&);
     
     void updateBlockMesh(const Ivec3&);
     void updateChunkMesh();
-    void updateVao();
+    void updateVao(Env*);
 
     void addPosition(const Vec3&);
     void addTexcoord(const Vec2&);
@@ -56,13 +53,6 @@ class ChunkMesh {
     void draw();
 
   private:
-    static int ctx;
-
-    static GLuint program;
-    static GLuint positionAttribLocation;
-    static GLuint texcoordAttribLocation;
-    static GLuint matrixUniformLocation;
-
     GLuint vao;
     GLuint positionBuffer;
     GLuint texcoordBuffer;

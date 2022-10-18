@@ -5,9 +5,7 @@
 
 Vec3::Vec3(): x(0), y(0), z(0) {}
 Vec3::Vec3(float v): x(v), y(v), z(v) {}
-Vec3::Vec3(int v): x(v), y(v), z(v) {}
 Vec3::Vec3(float _x, float _y, float _z): x(_x), y(_y), z(_z) {}
-Vec3::Vec3(int _x, int _y, int _z): x(_x), y(_y), z(_z) {}
 Vec3::Vec3(const Vec2& v): x(v.x), y(v.y), z(0) {}
 Vec3::Vec3(const Ivec3& v): x(v.x), y(v.y), z(v.z) {}
 

@@ -36,7 +36,7 @@ Block Chunk::getBlock(const Ivec3& p) {
 void Chunk::setBlockVisLocal(const Ivec3& p) {
   if (!isBound(p))
     return;
-  if (blocks[p.x][p.y][p.z] == 0)
+  if (blocks[p.x][p.y][p.z].getType() == 0)
     return;
   
   blocks[p.x][p.y][p.z].setVisAll(
@@ -56,35 +56,43 @@ void Chunk::setVisLocal() {
 
 void Chunk::setVisBorderPosX(IteratorX itB) {
   for (Chunk::IteratorX itA = borderPosXBegin(); itA != borderPosXEnd(); itA++, itB++) {
-    itA->setVisPosX(itB->isSolid());
-    itB->setVisNegX(itA->isSolid());
+    if (itA->getType() != 0)
+      itA->setVisPosX(itB->isSolid());
+    if (itB->getType() != 0)
+      itB->setVisNegX(itA->isSolid());
   }
 }
 
 void Chunk::setVisBorderPosZ(IteratorZ itB) {
   for (Chunk::IteratorZ itA = borderPosZBegin(); itA != borderPosZEnd(); itA++, itB++) {
-    itA->setVisPosZ(itB->isSolid());
-    itB->setVisNegZ(itA->isSolid());
+    if (itA->getType() != 0)
+      itA->setVisPosZ(!itB->isSolid());
+    if (itB->getType() != 0)
+      itB->setVisNegZ(!itA->isSolid());
   }
 }
 
 void Chunk::setVisBorderNegX(IteratorX itB) {
   for (Chunk::IteratorX itA = borderNegXBegin(); itA != borderNegXEnd(); itA++, itB++) {
-    itA->setVisNegX(itB->isSolid());
-    itB->setVisPosX(itA->isSolid());
+    if (itA->getType() != 0)
+      itA->setVisNegX(!itB->isSolid());
+    if (itB->getType() != 0)
+      itB->setVisPosX(!itA->isSolid());
   }
 }
 
 void Chunk::setVisBorderNegZ(IteratorZ itB) {
   for (Chunk::IteratorZ itA = borderNegZBegin(); itA != borderNegZEnd(); itA++, itB++) {
-    itA->setVisNegZ(itB->isSolid());
-    itB->setVisPosZ(itA->isSolid());
+    if (itA->getType() != 0)
+      itA->setVisNegZ(!itB->isSolid());
+    if (itB->getType() != 0)
+      itB->setVisPosZ(!itA->isSolid());
   }
 }
 
 void Chunk::genBlocks() {
   for (int i = 0; i < W; i++) for (int j = 0; j < L; j++) {
-    const int h = Noise::snoise(Vec2((position.x * W + i) * 0.01f, (position.y * L + j) * 0.01f)) * 20.0f + 50.0f;
+    const int h = std::clamp(Noise::snoise(Vec2((position.x * W + i) * 0.01f, (position.y * L + j) * 0.01f)) * 20.0f + 50.0f, 0.0f, (float) H);
     for (int k = 0; k < h; k++)
       blocks[i][k][j] = 1;
   }

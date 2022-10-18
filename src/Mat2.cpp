@@ -3,15 +3,14 @@
 
 #include "Mat2.hpp"
 
-Mat2::Mat2() {}
+Mat2::Mat2() {
+  for (int i = 0; i < 2; i++)
+    data[i * 2 + i] = 1.0f;
+}
 
 Mat2::Mat2(float v) {
-  for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++) {
-    if (i == j)
-      data[i * 2 + j] = v;
-    else
-      data[i * 2 + j] = 0;
-  }
+  for (int i = 0; i < 2; i++)
+    data[i * 2 + i] = v;
 }
 
 Mat2::Mat2(float v00, float v01, float v10, float v11) {
@@ -34,8 +33,8 @@ Mat2& Mat2::operator-=(const Mat2& b) {
 }
 
 Mat2& Mat2::operator*=(const Mat2& b) {
-  int temp[2 * 2 + 2];
-  std::copy(&data[0 * 2 + 0], &data[0 * 2 + 0] + 2 * 2, &temp[0 * 2 + 0]);
+  static float temp[2 * 2];
+  std::copy_n(&data[0 * 2 + 0], 2 * 2, &temp[0 * 2 + 0]);
   data[0 * 2 + 0] = temp[0 * 2 + 0] * b.data[0 * 2 + 0] + temp[1 * 2 + 0] * b.data[0 * 2 + 1];
   data[0 * 2 + 1] = temp[0 * 2 + 1] * b.data[0 * 2 + 0] + temp[1 * 2 + 1] * b.data[0 * 2 + 1];
   data[1 * 2 + 0] = temp[0 * 2 + 0] * b.data[1 * 2 + 0] + temp[1 * 2 + 0] * b.data[1 * 2 + 1];

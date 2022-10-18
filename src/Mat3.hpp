@@ -6,7 +6,7 @@
 #include "Vec3.hpp"
 
 struct Mat3 {
-  float data[3 * 3];
+  float data[3 * 3] = {0};
 
   Mat3();
   Mat3(float);

@@ -3,15 +3,14 @@
 
 #include "Mat3.hpp"
 
-Mat3::Mat3() {}
+Mat3::Mat3() {
+  for (int i = 0; i < 3; i++)
+    data[i * 3 + i] = 1.0f;
+}
 
 Mat3::Mat3(float v) {
-  for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) {
-    if (i == j)
-      data[i * 3 + j] = v;
-    else
-      data[i * 3 + j] = 0;
-  }
+  for (int i = 0; i < 3; i++)
+    data[i * 3 + i] = v;
 }
 
 Mat3::Mat3(float v00, float v01, float v02, float v10, float v11, float v12, float v20, float v21, float v22) {
@@ -39,8 +38,8 @@ Mat3& Mat3::operator-=(const Mat3& b) {
 }
 
 Mat3& Mat3::operator*=(const Mat3& b) {
-  int temp[3 * 3 + 3];
-  std::copy(&data[0 * 3 + 0], &data[0 * 3 + 0] + 3 * 3, &temp[0 * 3 + 0]);
+  static float temp[3 * 3];
+  std::copy_n(&data[0 * 3 + 0], 3 * 3, &temp[0 * 3 + 0]);
   data[0 * 3 + 0] = temp[0 * 3 + 0] * b.data[0 * 3 + 0] + temp[1 * 3 + 0] * b.data[0 * 3 + 1] + temp[2 * 3 + 0] * b.data[0 * 3 + 2];
   data[0 * 3 + 1] = temp[0 * 3 + 1] * b.data[0 * 3 + 0] + temp[1 * 3 + 1] * b.data[0 * 3 + 1] + temp[2 * 3 + 1] * b.data[0 * 3 + 2];
   data[0 * 3 + 2] = temp[0 * 3 + 2] * b.data[0 * 3 + 0] + temp[1 * 3 + 2] * b.data[0 * 3 + 1] + temp[2 * 3 + 2] * b.data[0 * 3 + 2];

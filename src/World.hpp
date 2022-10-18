@@ -9,12 +9,23 @@
 #include "ChunkIteratorY.hpp"
 #include "ChunkIteratorZ.hpp"
 #include "Hash.hpp"
+#include "Vec2.hpp"
+#include "Vec3.hpp"
 #include "Ivec2.hpp"
+#include "WorldMesh.hpp"
+#include "Mat4.hpp"
 
 class Chunk;
 struct Hash;
+struct Vec2;
+struct Vec3;
+struct Ivec2;
+class WorldMesh;
+struct Mat4;
 
 class World {
+  friend class WorldMesh;
+
   public:
     Chunk* createChunk(const Ivec2&);
     Chunk* getChunk(const Ivec2&);
@@ -22,9 +33,17 @@ class World {
 
     bool isChunkCreated(const Ivec2&);
 
-    void setChunkVisibilityGlobal(const Ivec2&);
+    void setChunkVisGlobal(const Ivec2&);
+
+    void rotate(const Vec2&);
+    void translate(const Vec3&);
+
+    Mat4 getMatrix();
     
   private:
+    Vec2 rotation{0};
+    Vec3 translation{-32, -70, -32};
+
     std::unordered_map<uint64_t, Chunk*> chunks;
 };
 

@@ -3,35 +3,16 @@
 
 #include "ChunkMesh.hpp"
 
-int ChunkMesh::ctx = -1;
-GLuint ChunkMesh::program = -1;
-GLuint ChunkMesh::positionAttribLocation = -1;
-GLuint ChunkMesh::texcoordAttribLocation = -1;
-GLuint ChunkMesh::matrixUniformLocation = -1;
-
 ChunkMesh::ChunkMesh(Chunk* chunk) {
   glGenVertexArrays(1, &vao);
   glGenBuffers(1, &positionBuffer);
   glGenBuffers(1, &texcoordBuffer);
 
+  Ivec2 chunkPosition = chunk->position;
+  Ivec3 blockPosition = Ivec3(chunkPosition.x * W, 0, chunkPosition.y * L);
+
   for (int x = 0; x < W; x++) for (int y = 0; y < H; y++) for (int z = 0; z < L; z++)
-    blockMeshes[x][y][z] = new BlockMesh(&chunk->blocks[x][y][z], this, Ivec3(x, y, z));
-}
-
-void ChunkMesh::init(int _ctx) {
-  ctx = _ctx;
-
-  program = Helper::loadProgram("assets/chunk.vsh", "assets/chunk.fsh");
-  glUseProgram(program);
-
-  positionAttribLocation = glGetAttribLocation(program, "a_position");
-  texcoordAttribLocation = glGetAttribLocation(program, "a_texcoord");
-
-  matrixUniformLocation = glGetUniformLocation(program, "u_matrix");
-}
-
-void ChunkMesh::setMatrix(const Mat4& m) {
-  glUniformMatrix4fv(matrixUniformLocation, 1, false, &m.data[0]);
+    blockMeshes[x][y][z] = new BlockMesh(&chunk->blocks[x][y][z], this, Ivec3(x, y, z) + blockPosition);
 }
 
 void ChunkMesh::updateBlockMesh(const Ivec3& p) {
@@ -46,7 +27,10 @@ void ChunkMesh::updateChunkMesh() {
     blockMeshes[x][y][z]->updateBlockMesh();
 }
 
-void ChunkMesh::updateVao() {
+void ChunkMesh::updateVao(Env* env) {
+  GLuint positionAttribLocation = env->chunkPositionAttribLocation;
+  GLuint texcoordAttribLocation = env->chunkTexcoordAttribLocation;
+
   glBindVertexArray(vao);
 
   glBindBuffer(GL_ARRAY_BUFFER, positionBuffer);
@@ -120,7 +104,8 @@ void ChunkMesh::removeTriangle(int i) {
 void ChunkMesh::draw() {
   glBindVertexArray(vao);
 
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  int count = 3 * indices.size();
+  glDrawArrays(GL_TRIANGLES, 0, count);
   
   glBindVertexArray(0);
 }
